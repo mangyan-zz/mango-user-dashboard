@@ -14,7 +14,13 @@ async function requestUtils(url, options) {
 	//发送请求获取响应
 	const response = await fetch(url, options);
 	//响应统一处理
-
+	if (response && (response.status == 200 || response.status == 201)) {
+		//请求成功判断
+		const data = await response.json();
+		return data;
+	} else {
+		//请求失败统一处理——异常界面跳转,响应失败的统一处理跳转到界面
+	}
 }
 
 /**

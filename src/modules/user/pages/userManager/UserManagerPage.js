@@ -2,11 +2,36 @@
  * 用户列表
  */
 import React, { PureComponent } from 'react';
-import { connect } from 'mango-web';
-import { Table, Divider } from 'antd';
+import { connect, MangoUtils } from 'mango-web';
+import { Table, Divider, Button } from 'antd';
 import Themes from '../../../../assets/Themes';
+import ModuleCode from '../../ModuleCode';
+import Strings from '../../Strings';
+import AppCode from '../../../../global/AppCode';
+import AddUserFragment from './fragments/AddUserFragment';
 
-@connect(({userManager, loading}) => ({userManager, pageLoading: loading.effects['userManager/onUsers']}))
+let cnx;
+const columns = [
+	{title: Strings.name, dataIndex: 'name', key: 'name',},
+	{title: Strings.email, key: 'email', dataIndex: 'email',},
+	{title: Strings.website, dataIndex: 'website', key: 'website',},
+	{
+		title: Strings.operate, key: 'action',
+		render: (text, record) => (
+			<span>
+				<Button onClick={() => {
+					alert('编辑');
+				}}>{Strings.edit}</Button>
+				<Divider type="vertical"/>
+				<Button onClick={() => {
+					MangoUtils.dispatch(cnx, ModuleCode.userManager, 'onDeleteUsers', {req: record.id});
+				}}>{Strings.delete}</Button>
+			</span>
+		),
+	}
+];
+
+@connect(({userManager, loading}) => ({userManager, pageLoading: loading.effects['userManager/onQueryUsers']}))
 class UserManagerPage extends PureComponent {
 
 	constructor(props) {
@@ -14,53 +39,31 @@ class UserManagerPage extends PureComponent {
 		this.data = {};
 	}
 
-	componentWillMount() {
-		console.log('111' + JSON.stringify(this.props.userManager));
-	}
-
-	componentDidMount() {
-		console.log('333' + JSON.stringify(this.props.userManager));
-	}
-
-	componentDidUpdate() {
-		console.log('444' + JSON.stringify(this.props.userManager));
-	}
-
 	render() {
+
 		const {pageLoading} = this.props;
 		const {data} = this.props.userManager;
-
-		const columns = [
-			{
-				title: '名称',
-				dataIndex: 'name',
-				key: 'name',
-			}, {
-				title: '电子邮箱',
-				key: 'email',
-				dataIndex: 'email',
-			}, {
-				title: '网站',
-				dataIndex: 'website',
-				key: 'website',
-			}, {
-				title: '操作',
-				key: 'action',
-				render: (text, record) => (
-					<span>
-      <a href="javascript:;">编辑</a>
-      <Divider type="vertical"/>
-      <a href="javascript:;">删除</a>
-    </span>
-				),
-			}
-		];
+		cnx = this;
 
 		return (
-			<div style={styles.container}>
-				<div style={Themes.styleContent}>
-					<Table columns={columns} dataSource={data} pagination={{pageSize: 10}}/>
-				</div>
+			<div style={Themes.container}>
+				<Table
+					columns={columns}
+					dataSource={data}
+					loading={pageLoading}
+					pagination={{pageSize: AppCode.PAGESIZE}}
+				/>
+
+				<Button
+					type={'primary'}
+					style={{display: 'flex', alignSelf: 'right'}}
+					onClick={() => {
+						MangoUtils.dispatch(this, ModuleCode.userManager, 'pureShowAddUserModal');
+					}}>
+					新增用户
+				</Button>
+
+				<AddUserFragment/>
 			</div>
 		);
 	}

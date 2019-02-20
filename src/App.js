@@ -4,8 +4,15 @@
 import React, { Component } from 'react';
 import { connect, Dimens } from 'mango-web';
 import { Texty } from 'mango-motion-web';
-import Images from '../assets/Images';
-import Themes from '../assets/Themes';
+import { message } from 'antd';
+import Images from './assets/Images';
+import Themes from './assets/Themes';
+
+message.config({
+	top: 100,
+	duration: 1,
+	maxCount: 3,
+});
 
 @connect()
 class App extends Component {

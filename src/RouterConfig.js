@@ -5,12 +5,14 @@ import React from 'react';
 import { Router, Route, Switch } from 'mango-web/router';
 
 import { ModuleRouter as DemoModuleRouter } from './modules/demo';
-import { ModuleRouter as UserModuleRouter } from './modules/user';
 import { RouterUtils } from 'mango-web';
-import App from './app/App';
+import App from './App';
 import ErrorPage from './layout/ErrorPage';
+import AsyncComponent from './components/async/AsyncComponent';
 
 let appHistory = null;
+
+const AsyncUser = AsyncComponent(() => import('./modules/user/ModuleRouter'));
 
 const RouterConfig = ({history, app}) => {
 
@@ -30,7 +32,7 @@ const RouterConfig = ({history, app}) => {
 				<Route path="/new" render={(props) => (<DemoModuleRouter {...props} app={app}/>)}/>
 
 				{/*用户中心模块*/}
-				<Route path="/user" render={(props) => (<UserModuleRouter {...props} app={app}/>)}/>
+				<Route path="/user" render={(props) => (<AsyncUser {...props} app={app}/>)}/>
 
 				{/*Error界面*/}
 				<Route path="/ErrorPage" component={ErrorPage}/>
@@ -47,4 +49,3 @@ function listenRouter(history) {
 }
 
 export { RouterConfig, appHistory as history };
-

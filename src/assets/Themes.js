@@ -36,6 +36,13 @@ const Themes = {
 	fontSizeBase: Dimens.d16,
 	fontSizeSm: Dimens.d14,
 
+	container: {
+		paddingTop: Dimens.d20,
+		paddingBottom: Dimens.d20,
+		paddingLeft: Dimens.d30,
+		paddingRight: Dimens.d30
+	},
+
 	//img_logo
 	styleImgLogo: {
 		height: Dimens.d44,

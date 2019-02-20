@@ -5,7 +5,7 @@ import { mango, createLoading } from 'mango-web';
 
 import 'antd/dist/antd.css';
 
-import AppModel from './app/AppModel';
+import AppModel from './global/AppModel';
 import { RouterConfig } from './RouterConfig';
 
 const app = mango({

@@ -14,6 +14,9 @@ const AppStrings = {
 	appName: 'mango',
 	appDesc: '无线前端框架',
 
+	cancel: '取消',
+	confirm: '确定',
+
 };
 
 export default AppStrings;

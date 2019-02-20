@@ -4,6 +4,8 @@
  */
 const AppCode = {
 
+	PAGESIZE: 10,	//分页数
+
 };
 
 export default AppCode;
